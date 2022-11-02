@@ -1,22 +1,33 @@
 package com.devlearning.algalog.resources;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devlearning.algalog.domain.Cliente;
+import com.devlearning.algalog.repositories.ClienteRepository;
 
 @RestController
 public class ClienteResource {
 
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	/*@PersistenceContext
+	private EntityManager manager;*/
+	
+	/*@GetMapping("/clientes")
+	public List<Cliente> listar() {
+		return manager.createQuery("from Cliente", Cliente.class)
+				.getResultList();
+	}*/
+	
 	@GetMapping("/clientes")
 	public List<Cliente> listar() {
-		
-		Cliente cliente1 = new Cliente(1L, "Maria","maria@gmail.com", "99999999");
-		Cliente cliente2 = new Cliente(2L, "José","jose@gmail.com", "988888888");
-
-		return Arrays.asList(cliente1, cliente2);
+		//return clienteRepository.findByNomeContaining("o");
+		//return clienteRepository.findBynome("Jose");
+		return clienteRepository.findAll();
 	}
 }
