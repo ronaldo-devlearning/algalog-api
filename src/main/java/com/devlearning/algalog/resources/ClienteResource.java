@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devlearning.algalog.domain.Cliente;
 import com.devlearning.algalog.repositories.ClienteRepository;
+import com.devlearning.algalog.services.ClienteService;
 
 @RestController
 @RequestMapping("/clientes")
@@ -26,6 +27,9 @@ public class ClienteResource {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private ClienteService clienteService;
 	
 	/*@PersistenceContext
 	private EntityManager manager;*/
@@ -62,7 +66,7 @@ public class ClienteResource {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
-		return clienteRepository.save(cliente);
+		return clienteService.salvar(cliente);
 	}
 	
 	@PutMapping("/{clienteId}")
@@ -73,7 +77,7 @@ public class ClienteResource {
 		}
 		
 		cliente.setId(clienteId);
-		cliente = clienteRepository.save(cliente);
+		cliente = clienteService.salvar(cliente);
 		
 		return ResponseEntity.ok(cliente);
 	}
