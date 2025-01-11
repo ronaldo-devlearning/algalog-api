@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.devlearning.algalog.domain.enums.StatusEntrega;
+import com.devlearning.algalog.exceptions.NegocioException;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -63,6 +64,27 @@ public class Entrega {
 		
 		return ocorrencia;
 		
+	}
+
+	public void finalizar() {
+		
+		if(naoPodeSerFinalizada()) {
+			throw new NegocioException("Entrega não pode ser finalizada");
+		}
+		
+		setStatus(StatusEntrega.FINALIZADA);
+		setDataFinalizacao(OffsetDateTime.now());
+		
+	}
+
+	private boolean podeSerFinalizada() {
+		
+		return StatusEntrega.PENDENTE.equals(getStatus());
+		
+	}
+	
+	public boolean naoPodeSerFinalizada() {
+		return !podeSerFinalizada();
 	}
 	
 }
